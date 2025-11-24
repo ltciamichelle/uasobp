@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.demospringboot.model.Admin;
-import com.example.demospringboot.model.KirimanReguler; // WAJIB untuk inisialisasi form kosong
+import com.example.demospringboot.model.KirimanReguler; 
 import com.example.demospringboot.model.LoginRequest;
 import com.example.demospringboot.service.AdminService;
-import com.example.demospringboot.service.KirimanService; // WAJIB: Import KirimanService
+import com.example.demospringboot.service.KirimanService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -23,7 +23,6 @@ public class AdminMvcController {
     @Autowired
     private AdminService adminService;
     
-    // KEKURANGAN YANG HILANG: Inject KirimanService
     @Autowired
     private KirimanService kirimanService;
 
@@ -56,17 +55,28 @@ public class AdminMvcController {
     // --- 3. ENDPOINT DASHBOARD (GET) ---
     @GetMapping("/dashboard")
     public String adminDashboard(Model model, HttpServletRequest request) {
-        // 1. Cek sesi: Jika Admin tidak ada di sesi, arahkan ke login
+        // Cek sesi: Jika Admin tidak ada di sesi, arahkan ke login
         if (request.getSession().getAttribute("Admin") == null) {
             return "redirect:/admin/login"; 
         }
         
-        // 2. KOREKSI: Ambil data Kiriman dari Service
+        // Ambil data Kiriman dari Service
         model.addAttribute("kirimanList", kirimanService.getAllKiriman());
         
-        // 3. Tambahkan objek kosong untuk Form Input Kiriman
+        // Tambahkan objek kosong untuk Form Input Kiriman
         model.addAttribute("kirimanBaru", new KirimanReguler()); 
 
         return "admin_dashboard";
+    }
+    
+    // --- 4. ENDPOINT LOGOUT (KOREKSI: DITAMBAHKAN) ---
+    // Endpoint ini akan diakses melalui /admin/logout
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request) {
+        // Membersihkan sesi saat ini
+        request.getSession().invalidate(); 
+        
+        // Mengarahkan kembali ke halaman login Admin
+        return "redirect:/admin/login"; 
     }
 }

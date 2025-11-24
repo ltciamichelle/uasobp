@@ -32,3 +32,5 @@
 [2025-11-24T16:46:53.808344400] Resi: JP0002, Tipe: KirimanKilat, Tujuan: Semanggi, Berat: 1.10 kg, Biaya: 25500.00
 [2025-11-24T16:47:30.176839100] Resi: JP0003, Tipe: KirimanReguler, Tujuan: BSD City, Berat: 0.50 kg, Biaya: 4000.00
 [2025-11-24T16:47:36.673195600] Resi: JP0003, Tipe: KirimanReguler, Tujuan: BSD City, Berat: 0.50 kg, Biaya: 4000.00
+[2025-11-24T17:36:26.419487600] Resi: JP0003, Tipe: KirimanKilat, Tujuan: Cikoko, Berat: 0.40 kg, Biaya: 22000.00
+[2025-11-24T17:36:33.045470800] Resi: JP0003, Tipe: KirimanKilat, Tujuan: Cikoko, Berat: 0.40 kg, Biaya: 22000.00
