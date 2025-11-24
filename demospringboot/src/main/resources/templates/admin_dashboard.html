@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Input & Daftar Kiriman</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/dashboard.css}">
+</head>
+
+<body>
+    <div class="top-nav">
+        <div>
+            <h1><i class="fas fa-user-shield"></i> Selamat Datang, Admin!</h1>
+            <p><i class="fas fa-tachometer-alt"></i> Ini adalah halaman Dashboard Anda.</p>
+        </div>
+
+        <div class="top-actions">
+            <a th:href="@{/kurir/manage}" class="manage-btn">
+                <i class="fas fa-users"></i> MANAJEMEN KURIR
+            </a>
+            <a href="/logout" class="logout-btn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </a>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div th:if="${error}" class="error-message">
+            <i class="fas fa-exclamation-circle"></i>
+            <span>Terjadi Kesalahan: <span th:text="${error}"></span></span>
+        </div>
+
+        <div class="dashboard-container">
+            <div class="form-column">
+                <div class="card">
+                    <div class="card-header">
+                        <i th:class="${kirimanEdit} ? 'fas fa-edit' : 'fas fa-plus-circle'"></i>
+                        <h2 th:if="${kirimanEdit}">Edit Kiriman (ID: [[${kirimanEdit.id}]])</h2>
+                        <h2 th:unless="${kirimanEdit}">Input Kiriman Baru</h2>
+                    </div>
+
+                    <form th:action="@{/kiriman}" method="POST">
+                        <input type="hidden" name="id" th:value="${kirimanEdit != null} ? ${kirimanEdit.id} : ''">
+
+                        <div class="form-group">
+                            <label><i class="fas fa-box"></i> Tipe Kiriman:</label>
+                            <select name="tipe" required>
+                                <option value="reguler"
+                                    th:selected="${kirimanEdit != null and kirimanEdit.getTipeKiriman() == 'KirimanReguler'}">
+                                    Reguler</option>
+                                <option value="kilat"
+                                    th:selected="${kirimanEdit != null and kirimanEdit.getTipeKiriman() == 'KirimanKilat'}">
+                                    Kilat</option>
+                                <option value="kargo"
+                                    th:selected="${kirimanEdit != null and kirimanEdit.getTipeKiriman() == 'KirimanKargo'}">
+                                    Kargo</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-barcode"></i> Nomor Resi:</label>
+                            <input type="text" name="resi"
+                                th:value="${kirimanEdit != null} ? ${kirimanEdit.nomorResi} : ''"
+                                placeholder="Masukkan nomor resi" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-home"></i> Alamat Pengirim:</label>
+                            <input type="text" name="alamatPengirim"
+                                th:value="${kirimanEdit != null} ? ${kirimanEdit.alamatPengirim} : ''"
+                                placeholder="Masukkan alamat pengirim" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-map-marker-alt"></i> Alamat Tujuan (Penerima):</label>
+                            <input type="text" name="tujuan"
+                                th:value="${kirimanEdit != null} ? ${kirimanEdit.alamatTujuan} : ''"
+                                placeholder="Masukkan alamat tujuan" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-weight"></i> Berat Barang (kg):</label>
+                            <input type="number" name="berat" step="0.1"
+                                th:value="${kirimanEdit != null} ? ${kirimanEdit.beratBarang} : ''" placeholder="0.0"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label><i class="fas fa-cube"></i> Volume (opsional):</label>
+                            <input type="number" name="volume" step="0.1"
+                                th:value="${kirimanEdit != null and kirimanEdit.getTipeKiriman() == 'KirimanKargo'} ? ${kirimanEdit.volumeBarang} : 0.0"
+                                placeholder="0.0" value="0.0">
+                        </div>
+
+                        <div class="form-group">
+                            <label><i class="fas fa-truck-moving"></i> Tugaskan ke Kurir:</label>
+                            <select name="kurirId" class="form-control">
+                                <option value="">-- Belum Ditugaskan --</option>
+                                <option th:each="kurir : ${kurirList}" th:value="${kurir.id}" th:text="${kurir.nama}"
+                                    th:selected="${kirimanEdit != null and kirimanEdit.getKurir() != null and kirimanEdit.getKurir().id == kurir.id}">
+                                    Nama Kurir
+                                </option>
+                            </select>
+                        </div>
+
+                        <button type="submit">
+                            <i th:class="${kirimanEdit} ? 'fas fa-save' : 'fas fa-paper-plane'"></i>
+                            <span th:text="${kirimanEdit} ? 'Simpan Perubahan' : 'Proses & Simpan Kiriman'"></span>
+                        </button>
+
+                        <div th:if="${kirimanEdit}">
+                            <a th:href="@{/admin/dashboard}" class="cancel-btn">
+                                <i class="fas fa-times"></i> Batal Edit
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="table-column">
+                <div class="card">
+                    <div class="card-header">
+                        <i class="fas fa-list-alt"></i>
+                        <h2>Daftar Semua Kiriman</h2>
+                    </div>
+
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th><i class="fas fa-barcode"></i> Resi</th>
+                                    <th><i class="fas fa-home"></i> Pengirim</th>
+                                    <th><i class="fas fa-map-marker-alt"></i> Penerima</th>
+                                    <th><i class="fas fa-weight"></i> Berat (kg)</th>
+                                    <th><i class="fas fa-truck"></i> Kurir</th>
+                                    <th><i class="fas fa-info-circle"></i> Status</th>
+                                    <th><i class="fas fa-box"></i> Tipe</th>
+                                    <th><i class="fas fa-money-bill-wave"></i> Ongkir (Rp)</th>
+                                    <th><i class="fas fa-cog"></i> Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="kiriman : ${kirimanList}">
+                                    <td><strong th:text="${kiriman.nomorResi}"></strong></td>
+                                    <td th:text="${kiriman.alamatPengirim}"></td>
+                                    <td th:text="${kiriman.alamatTujuan}"></td>
+                                    <td th:text="${kiriman.beratBarang}"></td>
+                                    <td>
+                                        <span th:if="${kiriman.kurir != null}" th:text="${kiriman.kurir.nama}"></span>
+                                        <span th:unless="${kiriman.kurir != null}" style="color: red;">(Belum)</span>
+                                    </td>
+                                    <td>
+                                        <span class="status-badge" th:text="${kiriman.status}"></span>
+                                    </td>
+                                    <td th:text="${kiriman.getTipeKiriman()}"></td>
+                                    <td><strong
+                                            th:text="${#numbers.formatDecimal(kiriman.hitungBiaya(), 0, 'POINT', 0, 'COMMA')}"></strong>
+                                    </td>
+                                    <td>
+                                        <div class="action-links">
+                                            <a th:href="@{/kiriman/edit(id=${kiriman.id})}" class="edit-link">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </a>
+                                            <a th:href="@{/kiriman/delete(id=${kiriman.id})}" class="delete-link"
+                                                onclick="return confirm('Yakin hapus?');">
+                                                <i class="fas fa-trash"></i> Hapus
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

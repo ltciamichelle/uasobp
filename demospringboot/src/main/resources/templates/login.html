@@ -1,0 +1,26 @@
+<html>
+
+<head>
+    <title>Seller Login</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/form.css}" />
+</head>
+
+<body>
+    <h2>Login Seller</h2>
+
+    <form id="feedback-form" th:action="@{/validateLogin}" method="post" class="form-group"
+        enctype="multipart/form-data">
+        <label for="kode" class="form-label">Kode Seller</label>
+        <input type="text" id="kode" name="kode" placeholder="Masukkan kode seller" required />
+
+        <label for="password" class="form-label">Password</label>
+        <input type="password" id="password" name="password" placeholder="Masukkan password" required />
+
+        <button type="submit" class="btn btn-primary" name="Login">Login</button>
+    </form>
+
+    <script th:src="@{/js/pass.js}" defer></script>
+</body>
+</html>

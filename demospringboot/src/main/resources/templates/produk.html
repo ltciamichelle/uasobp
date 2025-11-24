@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Produk Page</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/home.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/table.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/css/form.css}" />
+</head>
+<body>
+    <!-- Left Side: List of Products -->
+    <div class="first-box">
+        <h2>Daftar Produk</h2>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Tipe</th>
+                    <th>Produsen</th>
+                    <th>RAM (GB)</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="p, no : ${produkList}">
+                    <td th:text="${no.count}"></td>
+                    <td th:text="${p.tipe}"></td>
+                    <td th:text="${p.produsen}"></td>
+                    <td th:text="${p.ram}"></td>
+                    <td>
+                        <a th:href="@{/produk/edit(id=${p.id})}" class="btn btn-info" style="padding: 5px 10px; font-size: 12px;">Edit</a>
+                        <a th:href="@{/produk/delete(id=${p.id})}" class="btn btn-danger" style="padding: 5px 10px; font-size: 12px;"
+                           th:data-confirm-delete="|Are you sure you want to delete ${p.tipe}?|"
+                           onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false">Hapus</a>
+                    </td>
+                </tr>
+                <tr th:if="${#lists.isEmpty(produkList)}">
+                    <td colspan="5" style="text-align:center;">Belum ada produk.</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Right Side: Form -->
+    <div class="second-box">
+        <div id="feedback-form">
+            <h2 class="header" th:text="${produkRec != null} ? 'Edit Produk' : 'Input Produk Baru'"></h2>
+            
+            <form action="/produk" method="post" class="form-group" th:object="${produkRec}">
+                <!-- Hidden ID for Edit -->
+                <input type="hidden" th:field="*{id}">
+
+                <label class="form-label">Tipe</label>
+                <input type="text" th:field="*{tipe}" class="form-control" required minlength="3" maxlength="50">
+                <span th:if="${#fields.hasErrors('tipe')}" th:errors="*{tipe}" style="color:red;">Error Tipe</span>
+
+                <label class="form-label">Produsen</label>
+                <input type="text" th:field="*{produsen}" class="form-control" required minlength="3" maxlength="50">
+                <span th:if="${#fields.hasErrors('produsen')}" th:errors="*{produsen}" style="color:red;">Error Produsen</span>
+
+                <label class="form-label">RAM (GB)</label>
+                <input type="number" th:field="*{ram}" class="form-control" required>
+                <span th:if="${#fields.hasErrors('ram')}" th:errors="*{ram}" style="color:red;">Error RAM</span>
+
+                <button type="submit" class="btn btn-primary" style="margin-top: 10px;">Simpan</button>
+                <a th:if="${produkRec != null && produkRec.id != null}" href="/produk" class="btn btn-secondary" style="margin-top: 10px; display:inline-block; text-align:center; text-decoration:none; color:black;">Batal Edit</a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

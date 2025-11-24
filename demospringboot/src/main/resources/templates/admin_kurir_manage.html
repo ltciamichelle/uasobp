@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Kurir</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/kurir-manage.css}">
+</head>
+
+<body>
+    <div class="top-nav">
+        <div>
+            <h1><i class="fas fa-users-cog"></i> Manajemen Data Kurir</h1>
+            <p><i class="fas fa-truck"></i> Kelola data kurir pengiriman</p>
+        </div>
+        <a th:href="@{/admin/dashboard}" class="back-btn">
+            <i class="fas fa-arrow-left"></i> Kembali ke Dashboard
+        </a>
+    </div>
+
+    <div class="main-container">
+
+        <div class="card form-card">
+            <div class="card-header">
+                <i th:class="${newKurir.id} ? 'fas fa-user-edit' : 'fas fa-user-plus'"></i>
+                <h2 th:text="${newKurir.id} ? 'Edit Data Kurir: ' + ${newKurir.nama} : 'Tambah Kurir Baru'">Tambah Kurir
+                    Baru</h2>
+            </div>
+
+            <form th:action="@{/kurir/save}" th:object="${newKurir}" method="post">
+                <input type="hidden" th:field="*{id}" />
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="idKurir">
+                            <i class="fas fa-id-card"></i> ID Kurir Sistem:
+                        </label>
+                        <input type="text" id="idKurir" name="idKurir"
+                            th:value="${newKurir.idKurir} ? ${newKurir.idKurir} : ''"
+                            th:readonly="${newKurir.id != null}" placeholder="Akan dibuat otomatis" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="nama">
+                            <i class="fas fa-user"></i> Nama Lengkap:
+                        </label>
+                        <input type="text" id="nama" name="nama" th:value="*{nama}"
+                            placeholder="Masukkan nama lengkap kurir" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="nomorTelepon">
+                            <i class="fas fa-phone"></i> Nomor Telepon:
+                        </label>
+                        <input type="text" id="nomorTelepon" name="nomorTelepon" th:value="*{nomorTelepon}"
+                            placeholder="08xxxxxxxxxx">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status">
+                            <i class="fas fa-toggle-on"></i> Status:
+                        </label>
+                        <select id="status" name="status">
+                            <option value="Aktif" th:selected="*{status} == 'Aktif'">Aktif</option>
+                            <option value="Cuti" th:selected="*{status} == 'Cuti'">Cuti</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit">
+                        <i th:class="${newKurir.id} ? 'fas fa-save' : 'fas fa-user-plus'"></i>
+                        <span th:text="${newKurir.id} ? 'Simpan Perubahan' : 'Tambahkan Kurir'"></span>
+                    </button>
+
+                    <a th:if="${newKurir.id}" th:href="@{/kurir/manage}" class="cancel-btn">
+                        <i class="fas fa-times"></i> Batal Edit
+                    </a>
+                </div>
+            </form>
+        </div>
+
+        <div class="card table-card">
+            <div class="card-header">
+                <i class="fas fa-list"></i>
+                <h2>Daftar Kurir yang Aktif</h2>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th><i class="fas fa-id-card"></i> ID Sistem</th>
+                            <th><i class="fas fa-user"></i> Nama</th>
+                            <th><i class="fas fa-phone"></i> Telepon</th>
+                            <th><i class="fas fa-info-circle"></i> Status</th>
+                            <th><i class="fas fa-cog"></i> Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="kurir : ${kurirList}">
+                            <td><strong th:text="${kurir.idKurir}">K001</strong></td>
+                            <td th:text="${kurir.nama}">Nama Kurir</td>
+                            <td th:text="${kurir.nomorTelepon}">0812xxx</td>
+                            <td>
+                                <span class="status-badge"
+                                    th:classappend="${kurir.status == 'Aktif'} ? 'status-active' : 'status-cuti'"
+                                    th:text="${kurir.status}">
+                                    Aktif
+                                </span>
+                            </td>
+                            <td>
+                                <div class="action-links">
+                                    <a th:href="@{/kurir/edit/{id}(id=${kurir.id})}" class="edit-link">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                    <a th:href="@{/kurir/delete/{id}(id=${kurir.id})}" class="delete-link"
+                                        onclick="return confirm('Yakin hapus kurir ini?');">
+                                        <i class="fas fa-trash"></i> Hapus
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
