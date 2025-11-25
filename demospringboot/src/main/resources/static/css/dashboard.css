@@ -1,3 +1,4 @@
+/* RESET & BASE */
 * {
     margin: 0;
     padding: 0;
@@ -6,30 +7,33 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    /* Gradient Background tetap dipertahankan sesuai request kode ini */
     background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 50%, #80deea 100%);
     color: #333;
     min-height: 100vh;
+    overflow-x: hidden; /* Mencegah scroll horizontal pada body */
 }
 
-/* Top Navigation Bar */
+/* TOP NAVIGATION */
 .top-nav {
     background: linear-gradient(135deg, #26a69a 0%, #00897b 100%);
     color: white;
-    padding: 25px 40px;
+    padding: 20px 40px; /* Padding sedikit dikecilkan agar tidak terlalu boros tempat */
     display: flex;
     justify-content: space-between;
     align-items: center;
     box-shadow: 0 8px 24px rgba(0, 150, 136, 0.3);
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 1000; /* Z-index dinaikkan agar tidak tertutup elemen lain */
     border-radius: 0 0 24px 24px;
+    width: 100%;
 }
 
 .top-nav h1 {
-    font-size: 1.9rem;
+    font-size: 1.6rem; /* Font size disesuaikan */
     font-weight: 700;
-    margin-bottom: 8px;
+    margin-bottom: 4px;
     display: flex;
     align-items: center;
     gap: 12px;
@@ -37,16 +41,14 @@ body {
 
 .top-nav h1 i {
     background: rgba(255, 255, 255, 0.2);
-    padding: 10px;
+    padding: 8px;
     border-radius: 12px;
+    font-size: 1.2rem;
 }
 
 .top-nav p {
-    font-size: 0.95rem;
-    opacity: 0.95;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    font-size: 0.9rem;
+    opacity: 0.9;
 }
 
 .top-actions {
@@ -55,182 +57,131 @@ body {
     gap: 15px;
 }
 
+/* BUTTONS (Nav) */
 .manage-btn,
 .logout-btn {
-    padding: 12px 28px;
+    padding: 10px 24px;
     border-radius: 50px;
     text-decoration: none;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.9rem;
     transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    letter-spacing: 0.5px;
+    gap: 8px;
     border: none;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    white-space: nowrap; /* Mencegah teks tombol turun baris */
 }
 
 .manage-btn {
-    background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
-    color: #26a69a;
+    background: white;
+    color: #00897b;
 }
 
 .manage-btn:hover {
-    background: linear-gradient(135deg, #ffd54f 0%, #ffb300 100%);
-    color: white;
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(255, 193, 7, 0.4);
+    background: #fff8e1; /* Warna hover sedikit lebih lembut */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
 }
 
 .logout-btn {
-    background: linear-gradient(135deg, #ff7043 0%, #f4511e 100%);
+    background: #ff7043;
     color: white;
 }
 
 .logout-btn:hover {
-    background: linear-gradient(135deg, #ff5722 0%, #d84315 100%);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 20px rgba(255, 87, 34, 0.4);
+    background: #d84315;
+    transform: translateY(-2px);
 }
 
-/* Main Container */
+/* MAIN LAYOUT */
 .main-container {
-    padding: 35px 40px;
-    max-width: 1650px;
+    padding: 30px;
+    max-width: 1600px;
     margin: 0 auto;
+    width: 100%;
 }
 
-/* Error Message */
+/* ERROR MESSAGE */
 .error-message {
-    background: linear-gradient(135deg, #ff7043 0%, #f4511e 100%);
+    background: #ff5252;
     color: white;
-    padding: 16px 24px;
-    border-radius: 16px;
+    padding: 15px 20px;
+    border-radius: 12px;
     margin-bottom: 25px;
     display: flex;
     align-items: center;
     gap: 12px;
     font-weight: 500;
-    box-shadow: 0 6px 20px rgba(255, 87, 34, 0.3);
-    animation: slideDown 0.5s ease;
+    box-shadow: 0 4px 15px rgba(255, 82, 82, 0.3);
 }
 
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-20px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* Dashboard Container */
+/* DASHBOARD GRID - BAGIAN KRUSIAL YANG DIPERBAIKI */
 .dashboard-container {
     display: grid;
-    grid-template-columns: 480px 1fr;
+    /* FIX: Mengubah 480px menjadi 350px. 480px terlalu lebar untuk sidebar form */
+    grid-template-columns: 350px 1fr; 
     gap: 30px;
     align-items: start;
 }
 
-/* Card Styling */
+/* Mencegah layout rusak karena tabel */
+.table-column {
+    min-width: 0; /* SANGAT PENTING: Mencegah grid item melebar paksa */
+    overflow: hidden; /* Memastikan border radius card tetap rapi */
+}
+
+/* CARD STYLING */
 .card {
     background: white;
-    border-radius: 24px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 137, 123, 0.1); /* Shadow disesuaikan */
     overflow: hidden;
-    transition: all 0.3s ease;
     position: relative;
-}
-
-.card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 6px;
-    background: linear-gradient(90deg, #26a69a 0%, #80deea 50%, #ffd54f 100%);
-}
-
-.card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+    height: 100%; /* Agar card mengisi tinggi container jika perlu */
 }
 
 .card-header {
     background: linear-gradient(135deg, #26a69a 0%, #00897b 100%);
     color: white;
-    padding: 24px 28px;
+    padding: 20px 24px;
     display: flex;
     align-items: center;
-    gap: 14px;
-    font-size: 1.1rem;
-    position: relative;
-    overflow: hidden;
-}
-
-.card-header::after {
-    content: '🚚';
-    position: absolute;
-    right: 20px;
-    font-size: 3rem;
-    opacity: 100;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.card-header i {
-    font-size: 1.4rem;
-    background: rgba(255, 255, 255, 0.2);
-    padding: 10px;
-    border-radius: 12px;
+    gap: 12px;
 }
 
 .card-header h2 {
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     font-weight: 600;
-    margin: 0;
 }
 
-/* Form Styling */
+/* FORM STYLING */
 form {
-    padding: 32px 28px;
+    padding: 24px;
 }
 
 .form-group {
-    margin-bottom: 24px;
+    margin-bottom: 20px;
 }
 
 .form-group label {
     display: block;
-    margin-bottom: 10px;
-    color: #37474f;
+    margin-bottom: 8px;
+    color: #455a64;
     font-weight: 600;
-    font-size: 0.95rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    font-size: 0.9rem;
 }
 
-.form-group label i {
-    color: #26a69a;
-    font-size: 1.1rem;
-}
-
-.form-group input[type="text"],
-.form-group input[type="number"],
+.form-group input,
 .form-group select {
     width: 100%;
-    padding: 14px 18px;
-    border: 2px solid #e0e0e0;
-    border-radius: 12px;
+    padding: 12px 16px;
+    border: 2px solid #e0f2f1;
+    border-radius: 10px;
     font-size: 0.95rem;
-    transition: all 0.3s ease;
-    background-color: #f8f9fa;
+    transition: 0.3s;
+    background-color: #fafaFA;
     font-family: inherit;
 }
 
@@ -242,249 +193,145 @@ form {
     box-shadow: 0 0 0 4px rgba(38, 166, 154, 0.1);
 }
 
-.form-group select {
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2326a69a' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 15px center;
-    padding-right: 45px;
-}
-
-/* Submit Button */
-form button[type="submit"] {
+/* Tombol Submit */
+button[type="submit"] {
     width: 100%;
-    padding: 16px;
+    padding: 14px;
     background: linear-gradient(135deg, #26a69a 0%, #00897b 100%);
     color: white;
     border: none;
     border-radius: 50px;
-    font-size: 1.05rem;
+    font-size: 1rem;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 15px;
-    box-shadow: 0 6px 20px rgba(38, 166, 154, 0.3);
+    transition: 0.3s;
+    margin-top: 10px;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
 
-form button[type="submit"]:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 28px rgba(38, 166, 154, 0.5);
-    background: linear-gradient(135deg, #00897b 0%, #00695c 100%);
+button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 137, 123, 0.4);
 }
 
-form button[type="submit"]:active {
-    transform: translateY(0);
-}
-
-/* Cancel Button */
 .cancel-btn {
-    display: block;
-    width: 100%;
-    padding: 14px;
-    margin-top: 15px;
-    background: linear-gradient(135deg, #90a4ae 0%, #78909c 100%);
-    color: white;
-    text-align: center;
-    text-decoration: none;
-    border-radius: 50px;
-    font-weight: 600;
-    transition: all 0.3s ease;
     display: flex;
-    align-items: center;
     justify-content: center;
-    gap: 8px;
+    padding: 12px;
+    margin-top: 10px;
+    color: #78909c;
+    text-decoration: none;
+    font-size: 0.9rem;
+    border: 1px solid transparent;
+    border-radius: 50px;
 }
 
 .cancel-btn:hover {
-    background: linear-gradient(135deg, #78909c 0%, #607d8b 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(96, 125, 139, 0.3);
+    color: #546e7a;
+    background: #eceff1;
 }
 
-/* Table Container */
+/* TABLE STYLING */
 .table-container {
-    overflow-x: auto;
-    padding: 24px;
+    overflow-x: auto; /* Scroll horizontal hanya di container ini */
+    padding: 0;
+    width: 100%;
 }
 
 table {
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 8px;
-    min-width: 1000px;
-}
-
-thead {
-    background: linear-gradient(135deg, #26a69a 0%, #00897b 100%);
-    color: white;
+    border-collapse: collapse; /* Mengubah separate menjadi collapse agar lebih rapi */
+    min-width: 900px; /* Lebar minimum tabel */
 }
 
 thead th {
-    padding: 16px 14px;
+    background-color: #f1f8e9; /* Header tabel agak terang */
+    color: #2e7d32;
+    padding: 16px;
     text-align: left;
-    font-weight: 600;
-    font-size: 0.9rem;
-    white-space: nowrap;
-}
-
-thead th:first-child {
-    border-radius: 12px 0 0 12px;
-}
-
-thead th:last-child {
-    border-radius: 0 12px 12px 0;
-}
-
-tbody tr {
-    background: white;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-}
-
-tbody tr:hover {
-    transform: translateX(5px);
-    box-shadow: 0 4px 16px rgba(38, 166, 154, 0.15);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border-bottom: 2px solid #c8e6c9;
 }
 
 tbody td {
-    padding: 16px 14px;
+    padding: 16px;
+    border-bottom: 1px solid #eee;
+    color: #424242;
     font-size: 0.9rem;
-    border-top: 1px solid #f5f5f5;
-    border-bottom: 1px solid #f5f5f5;
+    vertical-align: middle;
 }
 
-tbody td:first-child {
-    border-left: 1px solid #f5f5f5;
-    border-radius: 12px 0 0 12px;
+tbody tr:last-child td {
+    border-bottom: none;
 }
 
-tbody td:last-child {
-    border-right: 1px solid #f5f5f5;
-    border-radius: 0 12px 12px 0;
+tbody tr:hover {
+    background-color: #f1f8e9;
 }
 
-/* Status Badge */
+/* Status Badges */
 .status-badge {
-    display: inline-block;
-    padding: 6px 16px;
-    border-radius: 50px;
-    font-size: 0.85rem;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
     font-weight: 600;
-    background: linear-gradient(135deg, #66bb6a 0%, #43a047 100%);
-    color: white;
-    box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+    background: #e8f5e9;
+    color: #2e7d32;
+    border: 1px solid #c8e6c9;
 }
 
 /* Action Links */
 .action-links {
     display: flex;
-    gap: 10px;
+    gap: 8px;
 }
 
-.edit-link,
-.delete-link {
-    padding: 8px 14px;
-    border-radius: 50px;
+.edit-link, .delete-link {
+    padding: 6px 12px;
+    border-radius: 6px;
     text-decoration: none;
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-weight: 600;
-    transition: all 0.3s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
 }
 
 .edit-link {
-    background: linear-gradient(135deg, #64b5f6 0%, #42a5f5 100%);
-    color: white;
-    box-shadow: 0 2px 8px rgba(66, 165, 245, 0.3);
-}
-
-.edit-link:hover {
-    background: linear-gradient(135deg, #42a5f5 0%, #1e88e5 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(66, 165, 245, 0.4);
+    background-color: #e3f2fd;
+    color: #1565c0;
 }
 
 .delete-link {
-    background: linear-gradient(135deg, #ef5350 0%, #e53935 100%);
-    color: white;
-    box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3);
+    background-color: #ffebee;
+    color: #c62828;
 }
 
-.delete-link:hover {
-    background: linear-gradient(135deg, #e53935 0%, #c62828 100%);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(244, 67, 54, 0.4);
-}
-
-
-/* Responsive Design */
-@media (max-width: 1200px) {
+/* RESPONSIVE BREAKPOINTS */
+@media (max-width: 1024px) {
     .dashboard-container {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /* Stack ke bawah di tablet */
     }
-
+    
     .form-column {
-        order: 1;
-    }
-
-    .table-column {
-        order: 2;
+        width: 100%;
+        max-width: 100%;
     }
 }
 
 @media (max-width: 768px) {
     .top-nav {
         flex-direction: column;
-        gap: 20px;
-        padding: 20px;
-        border-radius: 0 0 16px 16px;
+        gap: 15px;
+        border-radius: 0 0 20px 20px;
     }
-
-    .top-nav h1 {
-        font-size: 1.5rem;
-    }
-
+    
     .top-actions {
-        width: 100%;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .manage-btn,
-    .logout-btn {
         width: 100%;
         justify-content: center;
     }
-
+    
     .main-container {
-        padding: 20px 15px;
-    }
-
-    .table-container {
         padding: 15px;
-    }
-
-    .card {
-        border-radius: 16px;
-    }
-}
-
-@media (max-width: 480px) {
-    .card-header h2 {
-        font-size: 1.1rem;
-    }
-
-    form {
-        padding: 24px 20px;
     }
 }
