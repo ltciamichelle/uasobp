@@ -137,7 +137,7 @@ body {
     background: white;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0, 137, 123, 0.1); /* Shadow disesuaikan */
-    overflow: hidden;
+    overflow: visible;
     position: relative;
     height: 100%; /* Agar card mengisi tinggi container jika perlu */
 }
@@ -149,6 +149,7 @@ body {
     display: flex;
     align-items: center;
     gap: 12px;
+    border-radius: 20px 20px 0 0;
 }
 
 .card-header h2 {
@@ -159,10 +160,12 @@ body {
 /* FORM STYLING */
 form {
     padding: 24px;
+    overflow: visible;
 }
 
 .form-group {
     margin-bottom: 20px;
+    position: relative;
 }
 
 .form-group label {
@@ -191,6 +194,7 @@ form {
     border-color: #26a69a;
     background-color: white;
     box-shadow: 0 0 0 4px rgba(38, 166, 154, 0.1);
+    z-index: 100;
 }
 
 /* Tombol Submit */
@@ -234,9 +238,11 @@ button[type="submit"]:hover {
 
 /* TABLE STYLING */
 .table-container {
-    overflow-x: auto; /* Scroll horizontal hanya di container ini */
-    padding: 0;
-    width: 100%;
+    overflow-x: auto;
+        overflow-y: visible;
+        padding: 0;
+        width: 100%;
+        border-radius: 0 0 20px 20px;
 }
 
 table {
