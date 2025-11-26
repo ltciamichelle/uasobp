@@ -32,7 +32,7 @@ public class PenjualanController {
 
   @PostMapping("/penjualan")
   public String savePenjualan(@ModelAttribute Penjualan penjualan) {
-    // Check if ID exists to determine Add or Update
+  
     if (penjualan.getSaleID() != null && penjualan.getSaleID() > 0) {
       penjualanService.updatePenjualan(penjualan.getSaleID(), penjualan);
     } else {

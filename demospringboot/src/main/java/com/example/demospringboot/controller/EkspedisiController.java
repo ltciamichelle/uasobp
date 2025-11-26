@@ -24,17 +24,15 @@ public class EkspedisiController {
     @Autowired 
     private KurirService kurirService; 
 
-    // --- Method untuk memeriksa izin Admin ---
     private boolean isAdminLoggedIn(HttpServletRequest request) {
         return request.getSession().getAttribute("Admin") != null;
     }
 
-    // --- 1. ENDPOINT UNTUK MEMPROSES INPUT/UPDATE KIRIMAN (POST) ---
     @PostMapping("/kiriman")
     public String prosesKirimanBaru(
             @RequestParam String tipe,
             @RequestParam String resi,
-            @RequestParam String alamatPengirim, // KOREKSI 1: Tangkap Alamat Pengirim
+            @RequestParam String alamatPengirim, 
             @RequestParam String tujuan,
             @RequestParam double berat,
             @RequestParam(required = false, defaultValue = "0.0") double volume,
@@ -69,7 +67,6 @@ public class EkspedisiController {
         }
     }
 
-    // --- 2. ENDPOINT UNTUK HAPUS KIRIMAN ---
     @GetMapping("/kiriman/delete")
     public String deleteKiriman(@RequestParam Long id, HttpServletRequest request) {
         if (!isAdminLoggedIn(request)) {
@@ -79,7 +76,6 @@ public class EkspedisiController {
         return "redirect:/admin/dashboard"; 
     }
 
-    // --- 3. ENDPOINT UNTUK EDIT KIRIMAN ---
     @GetMapping("/kiriman/edit")
     public String editKiriman(@RequestParam Long id, Model model, HttpServletRequest request) {
         if (!isAdminLoggedIn(request)) {

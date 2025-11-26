@@ -13,7 +13,7 @@ import com.example.demospringboot.model.KirimanReguler;
 import com.example.demospringboot.model.LoginRequest;
 import com.example.demospringboot.service.AdminService;
 import com.example.demospringboot.service.KirimanService;
-import com.example.demospringboot.service.KurirService; // ⬅ PERBAIKAN: Import KurirService
+import com.example.demospringboot.service.KurirService; 
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -27,32 +27,28 @@ public class AdminMvcController {
     @Autowired
     private KirimanService kirimanService;
 
-    // ⬅ PERBAIKAN: Suntikkan (Autowired) KurirService
     @Autowired
     private KurirService kurirService;
     
-    // --- 1. ENDPOINT LOGIN (GET) ---
     @GetMapping("/login")
-// ... (Bagian ini tidak berubah) ...
+
     public String showAdminLoginPage(Model model) {
         model.addAttribute("loginRequest", new LoginRequest()); 
         return "admin_login"; 
     }
     
-    // --- 2. ENDPOINT PROSES LOGIN (POST) ---
     @PostMapping("/login")
-// ... (Bagian ini tidak berubah) ...
     public String loginAdmin(@ModelAttribute LoginRequest loginRequest, 
                              HttpServletRequest request) {
         
         Admin admin = adminService.loginAdmin(
             loginRequest.getUsername(), 
-// ... (Bagian ini tidak berubah) ...
+
             loginRequest.getPassword()
         );
 
         if (admin != null) {
-            // KOREKSI: Set Sesi Admin
+        
             request.getSession().setAttribute("Admin", admin); 
             return "redirect:/admin/dashboard"; 
         } else {
@@ -60,10 +56,8 @@ public class AdminMvcController {
         }
     }
     
-    // --- 3. ENDPOINT DASHBOARD (GET) ---
     @GetMapping("/dashboard")
     public String adminDashboard(Model model, HttpServletRequest request) {
-        // Cek sesi: Jika Admin tidak ada di sesi, arahkan ke login
         if (request.getSession().getAttribute("Admin") == null) {
             return "redirect:/admin/login"; 
         }
@@ -79,9 +73,7 @@ public class AdminMvcController {
         
         return "admin_dashboard";
     }
-    
-    // --- 4. ENDPOINT LOGOUT (KOREKSI: DITAMBAHKAN) ---
-// ... (Bagian ini tidak berubah) ...
+
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
         // Membersihkan sesi saat ini
