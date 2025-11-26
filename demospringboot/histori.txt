@@ -43,3 +43,7 @@
 [2025-11-25T15:29:25.270543400] Resi: JP0006, Tipe: KirimanKilat, Tujuan: Semanggi, Berat: 2.00 kg, Biaya: 30000.00
 [2025-11-25T15:30:09.981537500] Resi: JP0007, Tipe: KirimanKargo, Tujuan: Cikoko, Berat: 15.00 kg, Biaya: 150000.00
 [2025-11-25T15:30:15.503880700] Resi: JP0007, Tipe: KirimanKargo, Tujuan: Cikoko, Berat: 15.00 kg, Biaya: 150000.00
+[2025-11-26T12:26:09.184606200] Resi: JP0008, Tipe: KirimanReguler, Tujuan: Cimahi, Berat: 5.00 kg, Biaya: 40000.00
+[2025-11-26T12:26:29.993218700] Resi: JP0008, Tipe: KirimanReguler, Tujuan: Cimahi, Berat: 5.00 kg, Biaya: 40000.00
+[2025-11-26T12:26:43.119643900] Resi: JP0008, Tipe: KirimanReguler, Tujuan: Cimahi, Berat: 5.00 kg, Biaya: 40000.00
+[2025-11-26T12:40:18.281577800] Resi: JP0008, Tipe: KirimanKilat, Tujuan: Cimahi, Berat: 8.00 kg, Biaya: 60000.00

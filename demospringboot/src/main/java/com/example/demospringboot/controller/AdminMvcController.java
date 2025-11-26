@@ -13,6 +13,7 @@ import com.example.demospringboot.model.KirimanReguler;
 import com.example.demospringboot.model.LoginRequest;
 import com.example.demospringboot.service.AdminService;
 import com.example.demospringboot.service.KirimanService;
+import com.example.demospringboot.service.KurirService; // ⬅ PERBAIKAN: Import KurirService
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -26,8 +27,13 @@ public class AdminMvcController {
     @Autowired
     private KirimanService kirimanService;
 
+    // ⬅ PERBAIKAN: Suntikkan (Autowired) KurirService
+    @Autowired
+    private KurirService kurirService;
+    
     // --- 1. ENDPOINT LOGIN (GET) ---
     @GetMapping("/login")
+// ... (Bagian ini tidak berubah) ...
     public String showAdminLoginPage(Model model) {
         model.addAttribute("loginRequest", new LoginRequest()); 
         return "admin_login"; 
@@ -35,11 +41,13 @@ public class AdminMvcController {
     
     // --- 2. ENDPOINT PROSES LOGIN (POST) ---
     @PostMapping("/login")
+// ... (Bagian ini tidak berubah) ...
     public String loginAdmin(@ModelAttribute LoginRequest loginRequest, 
                              HttpServletRequest request) {
         
         Admin admin = adminService.loginAdmin(
             loginRequest.getUsername(), 
+// ... (Bagian ini tidak berubah) ...
             loginRequest.getPassword()
         );
 
@@ -65,12 +73,15 @@ public class AdminMvcController {
         
         // Tambahkan objek kosong untuk Form Input Kiriman
         model.addAttribute("kirimanBaru", new KirimanReguler()); 
-
+        
+        // ⬅ PERBAIKAN: Ambil daftar kurir dan tambahkan ke Model
+        model.addAttribute("kurirList", kurirService.getAllKurir());
+        
         return "admin_dashboard";
     }
     
     // --- 4. ENDPOINT LOGOUT (KOREKSI: DITAMBAHKAN) ---
-    // Endpoint ini akan diakses melalui /admin/logout
+// ... (Bagian ini tidak berubah) ...
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
         // Membersihkan sesi saat ini
